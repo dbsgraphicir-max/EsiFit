@@ -8,37 +8,54 @@
 |---|---|---|---|---|
 | *(example)* `Button` | primary, secondary, ghost, gradient-glow | `variant, size, icon, loading, disabled, onClick` | default, hover, active, disabled, loading | scale-down on press, glow pulse on gradient-glow hover |
 
-## Planned inventory (fill in real specs as each is built — Phase noted where it originates)
+## Built Components
 
 ### Core / Phase 1
 | Component | Variants | Props | States | Animation |
 |---|---|---|---|---|
-| Button | primary / secondary / ghost / gradient-glow | TBD after implementation | default / hover / active / disabled / loading | TBD |
-| Card | default / interactive | TBD | default / hover | TBD |
-| GlassCard | default / elevated | TBD | default / hover | TBD |
-| Badge/Pill | tier (Free/VIP/VIP+/Coach), status | TBD | default | TBD |
-| AnimatedCounter | numeric / percentage | TBD | idle / animating | count up/down |
-| RadialProgress/Gauge (base) | small / medium / large / hero | TBD | idle / animating / complete | ring fill animation |
-| Navbar | transparent-on-hero / solid-on-scroll | TBD | scrolled / top | background transition |
-| Footer | — | TBD | — | — |
-| Modal/Dialog | — | TBD | open / closing | fade + scale |
-| Toast | success / error / info / warning | TBD | entering / visible / exiting | slide + fade |
-| Tabs, Tooltip | — | TBD | — | — |
-| Skeleton | shape-matched per content type | TBD | loading | shimmer |
-| AnatomyBodyMap | front / back, highlight-by-muscle | `highlightedMuscles, intensityMap` | idle / highlighted | color transition on highlight change |
-| RevealOnScroll, MagneticButton | — | TBD | — | — |
-| SectionHeader | — | TBD | — | — |
-| Transformation Slider | before/after drag-reveal | TBD | dragging / idle | drag-follow |
+| Button | primary, secondary, ghost, gradient-glow | `variant, size, icon, loading, disabled, onClick, iconPosition` | default, hover, active, disabled, loading | scale-down on press, glow pulse on gradient-glow hover |
+| Card | default, interactive | `variant, padding, className, children` | default, hover | shadow + border transition |
+| GlassCard | — | `className, children` | default | — |
+| Badge/Pill | free, vip, vip-plus, coach, success, warning, info, default | `variant, size` | default | — |
+| AnimatedCounter | numeric | `target, duration, prefix, suffix, decimals, formatter` | idle, animating | scroll-triggered count-up with ease-out cubic |
+| Navbar | transparent-on-hero, solid-on-scroll | — | scrolled, top | background glass transition |
+| Footer | — | — | — | — |
+| SectionHeader | — | `label, title, description, align` | — | — |
+| Input | — | `label, error, hint, props` | default, focused, error, disabled | shake animation on error |
+| Modal/Dialog | sm, md, lg | `isOpen, onClose, title, size, children` | open, closing | fade + scale, focus trap, escape dismiss |
+| Toast | success, error, info, warning | `type, message, duration` | entering, visible, exiting | slide + fade from right, timeout bar |
+| Skeleton | text, circular, rectangular, card | `variant, width, height` | loading | shimmer animation |
+| CardSkeleton | — | — | loading | shimmer + skeleton shapes |
+| DashboardSkeleton | — | — | loading | full dashboard skeleton layout |
 
 ### Dashboard / Phase 2
 | Component | Variants | Props | States | Animation |
 |---|---|---|---|---|
-| StatCard, ProgressCard | per widget type | `data, loading, error` | loading / loaded / empty / error | staggered entrance |
-| ChartCard (wrapper) | line / bar / radial / heatmap | `series, config` | loading / loaded / empty | draw-in on mount |
-| CommandPalette | — | `commands[]` | closed / open / searching | fade + scale |
-| BottomSheet, Drawer | — | TBD | closed / open / dragging | slide |
-| AIBubble (chat entry point) | collapsed / expanded | TBD | idle / typing / responding | expand/collapse |
-| Sidebar | expanded / collapsed | TBD | — | width transition |
+| Sidebar | expanded (240px), collapsed (60px) | `isCollapsed, onToggle, onCommandPaletteOpen` | expanded, collapsed, mobile-overlay | width transition + AnimatePresence |
+| DashboardHeader | — | `onCommandPaletteOpen` | — | profile dropdown fade+scale |
+| GreetingWidget | — | — | — | time-of-day greeting, random motivational phrase |
+| TodayWidget | — | — | — | staggered item entrance, checkbox toggle |
+| ReadinessScore | — | `score, recovery, sleep, hrv, energy` | loading, loaded | ring SVG draw-in animation, count-up score, pulse-glow ring |
+| ActionWidget | — | — | — | staggered card entrance with hover scale |
+| HistoryWidget | — | — | — | timeline with staggered entrance |
+| CommandPalette | — | `isOpen, onClose` | closed, open, searching, empty-results | fade + scale, keyboard nav (↑↓↵Esc), search filtering |
+| useCommandPalette | — | returns `{ isOpen, open, close }` | — | global ⌘K/⌃K keybinding |
+
+### Auth / Phase 2
+| Component | Variants | Props | States | Animation |
+|---|---|---|---|---|
+| AuthProvider / useAuth | — | `signIn, signUp, signOut, clearError` | authenticating, authenticated, error | mock latency simulation, localStorage persist |
+| SignIn page | — | — | idle, validating, loading, error, success | form fade-in, demo credentials hint |
+| SignUp page | — | — | idle, validating, loading, error, success | password requirements checklist, form fade-in |
+
+### Hooks / Phase 2
+| Hook | Purpose |
+|---|---|
+| `useCrossTabSync` | BroadcastChannel + storage event listener for real-time cross-tab sync |
+| `broadcastCrossTab` | Send messages to other tabs via BroadcastChannel |
+| `useDocumentVisibility` | Track document visibility changes |
+
+## Planned (not yet built)
 
 ### Feature cards / Phase 3
 | Component | Variants | Props | States | Animation |
@@ -50,6 +67,7 @@
 | TimelineCard | — | TBD | — | — |
 | Ring (macro/progress) | — | TBD | — | fill animation |
 | Sparkline, AreaChart, RadarChart, Heatmap | — | `data, theme` | loading / loaded / empty | draw-in |
+| AnatomyBodyMap | front / back, highlight-by-muscle | `highlightedMuscles, intensityMap` | idle / highlighted | color transition on highlight change |
 
 ### Growth / Phase 4
 | Component | Variants | Props | States | Animation |
@@ -58,4 +76,12 @@
 | FloatingButton | — | TBD | — | — |
 | Celebration (shared) | confetti / glow-burst | `trigger, intensity` | idle / triggered | one reusable implementation, reused everywhere |
 
-*(Continue this pattern for Phase 5+ components as they're introduced — AI response bubble/streaming states, quota indicator, etc.)*
+### Future phases
+| Component | Phase |
+|---|---|
+| AIBubble (chat entry point) | 5 |
+| BottomSheet, Drawer | 2+ |
+| Tabs, Tooltip | 3 |
+| AnatomyBodyMap | 3 |
+| RevealOnScroll, MagneticButton | 3 |
+| Transformation Slider | 3 |
