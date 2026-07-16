@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── DESIGN BIBLE: CSS Custom Properties ─── */
+@layer base {
+  :root {
+    /* Surfaces & Depth */
+    --surface-base: 255, 255, 255;
+    --surface-raised: 248, 250, 252;
+    --surface-overlay: 241, 245, 249;
+    --surface-border: 226, 232, 240;
+
+    /* Brand colors */
+    --brand-primary: 74, 222, 128;
+    --brand-accent: 56, 189, 248;
+
+    /* Text */
+    --text-primary: 15, 23, 42;
+    --text-secondary: 100, 116, 139;
+    --text-tertiary: 148, 163, 184;
+    --text-inverse: 248, 250, 252;
+
+    /* Glass */
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-bg-dark: rgba(10, 10, 15, 0.6);
+    --glass-border-dark: rgba(255, 255, 255, 0.08);
+
+    /* Glow */
+    --glow-primary: 0 0 20px rgba(74, 222, 128, 0.3), 0 0 40px rgba(74, 222, 128, 0.1);
+    --glow-accent: 0 0 20px rgba(56, 189, 248, 0.3), 0 0 40px rgba(56, 189, 248, 0.1);
+
+    /* Gradient tokens */
+    --gradient-hero: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 50%, #f8fafc 100%);
+    --gradient-cta: linear-gradient(135deg, #22c55e 0%, #0ea5e9 100%);
+    --gradient-glow: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(56, 189, 248, 0.2));
+
+    /* Font family tokens */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Motion tokens */
+    --ease-snappy: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast: 150ms;
+    --duration-normal: 200ms;
+    --duration-slow: 300ms;
+  }
+
+  .dark {
+    --surface-base: 10, 10, 15;
+    --surface-raised: 18, 18, 26;
+    --surface-overlay: 26, 26, 46;
+    --surface-border: 42, 42, 62;
+
+    --text-primary: 248, 250, 252;
+    --text-secondary: 148, 163, 184;
+    --text-tertiary: 100, 116, 139;
+    --text-inverse: 15, 23, 42;
+
+    --glass-bg: rgba(10, 10, 15, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-bg-dark: rgba(10, 10, 15, 0.8);
+    --glass-border-dark: rgba(255, 255, 255, 0.06);
+
+    --gradient-hero: linear-gradient(135deg, #052e16 0%, #082f49 50%, #0a0a0f 100%);
+    --gradient-cta: linear-gradient(135deg, #16a34a 0%, #0284c7 100%);
+    --gradient-glow: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(56, 189, 248, 0.1));
+  }
+}
+
+/* ─── Base Styles ─── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: rgb(var(--text-primary));
+    background-color: rgb(var(--surface-base));
+    transition: background-color var(--duration-normal) var(--ease-smooth),
+      color var(--duration-normal) var(--ease-smooth);
+    min-height: 100vh;
+  }
+
+  /* Typography defaults */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  /* Monospace for data/numbers */
+  .data-font {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: rgba(var(--brand-primary), 0.3);
+    color: rgb(var(--text-primary));
+  }
+}
+
+/* ─── Glass Surface Utility ─── */
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .dark .glass {
+    background: var(--glass-bg-dark);
+    border: 1px solid var(--glass-border-dark);
+  }
+
+  .glass-elevated {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .glass-elevated {
+    background: rgba(18, 18, 26, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Glow utilities */
+  .glow-primary {
+    box-shadow: var(--glow-primary);
+  }
+
+  .glow-accent {
+    box-shadow: var(--glow-accent);
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background-image: var(--gradient-cta);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgb(var(--surface-overlay)) 25%,
+      rgb(var(--surface-raised)) 50%,
+      rgb(var(--surface-overlay)) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+    border-radius: 8px;
+  }
+
+  /* Focus ring */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--brand-primary))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--surface-base))];
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply px-4 tablet:px-8 desktop:px-12;
+  }
+
+  .section-container {
+    @apply mx-auto w-full max-w-[1440px] section-padding;
+  }
+}
+
+/* ─── Reduced Motion ─── */
+@layer base {
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ─── Scrollbar ─── */
+@layer base {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--surface-border));
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--text-tertiary));
+  }
+}
